@@ -1,10 +1,7 @@
 words = ["питон", "программа", "клавиатура", "функция", "переменная",
          "список", "условие", "цикл", "строка", "словарь"]
-
 max_count = 6
-
 from random import choice
-
 answer = choice(words)
 secret = ['_'] * len(answer)
 used = set()
