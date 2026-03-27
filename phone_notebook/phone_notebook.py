@@ -1,9 +1,44 @@
 import json
 import os
 
-def write():
-    phone_notebook(notebook)
-    json.dump(notebook, open("notebook.json", "w"))
+class Notebook:
+    def __init__(self):
+        self.contacts = {}
+
+    def add(self, name, number):
+        self.contacts[name] = number
+
+    def find(self,name):
+        if name in self.contacts:
+            print(f"Номер для {name} - {self.contacts[name]}")
+        else:
+            print("Имя не найдено")
+
+    def show(self):
+        if self.contacts:
+            for name, number in self.contacts.items():
+                print(name, number)
+        else:
+            print("Книжка пуста")
+
+    def delete(self, name):
+        if name in self.contacts:
+            del self.contacts[name]
+        else:
+            print("Имя не найдено")
+
+    def save(self):
+        json.dump(self.contacts, open("notebook.json", "w"))
+
+    def load(self):
+        if os.path.exists(filename):
+            try:
+                with open(filename) as f:
+                    self.contacts = json.load(f)
+
+            except json.decoder.JSONDecodeError:
+                pass
+
 
 def phone_notebook(notebook):
     print("\nДобро пожаловать! Выберите команду ниже:")
@@ -30,45 +65,27 @@ def phone_notebook(notebook):
                 print("Введите контакт: Имя и Номер")
                 name = input()
                 number = input()
-                notebook[name] = number
+                nb.add(name, number)
 
             elif choice == 2:
-
                 print("Введите имя:")
                 name = input()
-
-                if name in notebook:
-                    print(f"Номер для {name} - {notebook[name]}")
-                else:
-                    print("Имя не найдено")
+                nb.find(name)
 
             elif choice == 3:
-
                 print("Введите имя контакта для удаления")
                 name = input()
-                if name in notebook:
-                    del notebook[name]
-                    continue
-                else:
-                    print("Имя не найдено")
+                nb.delete(name)
 
             elif choice == 4:
-
-                if notebook:
-                    for name, number in notebook.items():
-                        print(name, number)
-                else:
-                    print("Книжка пуста")
+                nb.show()
             else:
                 return
 
 filename = "notebook.json"
 notebook = {}
-if os.path.exists(filename):
-    try:
-        with open(filename) as f:
-            notebook = json.load(f)
+nb = Notebook()
+nb.load()
+phone_notebook(notebook)
+nb.save()
 
-    except json.decoder.JSONDecodeError:
-        pass
-write()
