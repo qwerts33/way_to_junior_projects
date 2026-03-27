@@ -1,5 +1,4 @@
 def to_do_list():
-    tasks =[]
     while True:
         print("1 - Добавить задачу \n2 - Показать все задачи \n3 - Удалить задачу\n4 - Выход")
         while True:
@@ -36,7 +35,7 @@ def to_do_list():
                 if w in [x for x in range(1,i+1)]:
                     tasks.pop(w)
                     break
-
         else:
             return
-to_do_list()
+tasks =[]
+to_do_list(tasks)
